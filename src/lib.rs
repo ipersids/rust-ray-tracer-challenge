@@ -6,7 +6,10 @@
 // expose these modules
 
 pub mod tuple;
+pub mod utils;
 
 // re-export the structures
 
 pub use tuple::Tuple;
+pub use utils::EPSILON;
+pub use utils::equalf;
