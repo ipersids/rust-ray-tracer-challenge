@@ -12,4 +12,4 @@ pub mod utils;
 
 pub use tuple::Tuple;
 pub use utils::EPSILON;
-pub use utils::equalf;
+pub use utils::approx_eq;

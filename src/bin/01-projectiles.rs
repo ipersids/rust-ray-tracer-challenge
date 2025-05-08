@@ -1,6 +1,20 @@
 use ray_tracer::tuple::Tuple;
 use ray_tracer::utils::EPSILON;
 
+use std::fmt;
+
+struct DisplayTuple(Tuple);
+
+impl fmt::Display for DisplayTuple {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "Tuple({:.2}, {:.2}, {:.2})",
+            self.0.x, self.0.y, self.0.z
+        )
+    }
+}
+
 /// A projectile with a position (point) and velocity (vector)
 struct Projectile {
     position: Tuple,
@@ -48,7 +62,7 @@ impl Environment {
 fn main() {
     let mut proj: Projectile = Projectile::new(
         Tuple::point(0.0, 1.0, 0.0),
-        Tuple::vector(1.0, 1.0, 0.0).normalize(),
+        Tuple::vector(1.0, 1.0, 0.0).normalize().unwrap(),
     );
     let env: Environment = Environment::new(
         Tuple::vector(0.0, -0.1, 0.0),
@@ -58,10 +72,12 @@ fn main() {
     // Simulate the projectile's motion until it hits the ground
     println!("{:<25}  {:<25}", "Position", "Velocity");
     println!("{:-<24}  {:->25}", "", "");
-
     while proj.position.y > EPSILON {
-        // two columns, each using our Display impl
-        println!("{:<25}  {:<25}", proj.position, proj.velocity);
+        println!(
+            "{:<25}  {:<25}",
+            DisplayTuple(proj.position),
+            DisplayTuple(proj.velocity)
+        );
         proj.tick(&env);
     }
 }
