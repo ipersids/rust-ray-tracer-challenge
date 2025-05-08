@@ -2,6 +2,7 @@
 name = "ray_tracer"
 version = "0.1.0"
 edition = "2024"
+default-run = "ray_tracer"
 
 [profile.dev]
 opt-level = 0

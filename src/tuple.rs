@@ -5,6 +5,7 @@
 //!
 
 use crate::utils::equalf;
+use std::fmt::{Display, Formatter, Result};
 use std::ops::{Add, Div, Mul, Neg, Sub};
 
 /// Tuple Type represents a 3D point (w=1.0) or vector (w=0.0)
@@ -181,6 +182,19 @@ impl Div<f64> for Tuple {
             z: self.z / other,
             w: self.w / other,
         }
+    }
+}
+
+impl Display for Tuple {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        let name = if self.is_vector() {
+            "Vector".to_string()
+        } else if self.is_point() {
+            "Point".to_string()
+        } else {
+            "ERROR".to_string()
+        };
+        write!(f, "{}({:.2}, {:.2}, {:.2})", name, self.x, self.y, self.z)
     }
 }
 
