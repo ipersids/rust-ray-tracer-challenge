@@ -16,6 +16,7 @@ pub struct Tuple {
     pub w: f64,
 }
 
+/// Tuple contractors
 impl Tuple {
     /// Private constructor creates a new Tuple with given components
     fn new(x: f64, y: f64, z: f64, w: f64) -> Self {
@@ -30,6 +31,63 @@ impl Tuple {
     /// Creates a vector with w-component equal 0.0
     pub fn vector(x: f64, y: f64, z: f64) -> Self {
         Self::new(x, y, z, 0.0)
+    }
+}
+
+/// Tuple getters and helper functions
+impl Tuple {
+    /// Checks if given Tuple is point
+    pub fn is_point(&self) -> bool {
+        equalf(self.w, 1.0)
+    }
+
+    /// Checks if given Tuple is vector
+    pub fn is_vector(&self) -> bool {
+        equalf(self.w, 0.0)
+    }
+}
+
+/// Tuple special math operations for vectors
+impl Tuple {
+    /// Calculates magnitude of a 3D vector: |V| = √(x2 + y2 + z2)
+    pub fn magnitude(&self) -> f64 {
+        if !self.is_vector() {
+            panic!("Invalid operation: magnitude calculation available only for vectors.")
+        }
+
+        (self.x.powi(2) + self.y.powi(2) + self.z.powi(2)).sqrt()
+    }
+
+    /// Converts an arbitrary vector to a unit vector
+    pub fn normalize(&self) -> Tuple {
+        if !self.is_vector() {
+            panic!("Invalid operation: normalization available only for vectors.")
+        }
+
+        *self / self.magnitude()
+    }
+
+    /// Calculates dot product of two vectors
+    pub fn dot(&self, other: &Self) -> f64 {
+        if !(self.is_vector() && other.is_vector()) {
+            panic!("Invalid operation: dot product calculation available only for vectors.")
+        }
+
+        self.x * other.x + self.y * other.y + self.z * other.z
+    }
+
+    /// Calculates cross product of two vectors
+    pub fn cross(&self, other: &Self) -> Self {
+        if !(self.is_vector() && other.is_vector()) {
+            panic!("Invalid operation: cross product calculation available only for vectors.")
+        }
+
+        Self {
+            x: self.y * other.z - self.z * other.y,
+            y: self.z * other.x - self.x * other.z,
+            z: self.x * other.y - self.y * other.x,
+            w: 0.0,
+        }
     }
 }
 
@@ -236,5 +294,69 @@ mod tests {
     fn test_scalar_div_invalid() {
         let v = Tuple::vector(3.0, 2.0, 1.0);
         let _ = v / 0.0;
+    }
+
+    #[test]
+    fn test_magnitude_valid() {
+        assert_eq!(Tuple::vector(1.0, 0.0, 0.0).magnitude(), 1.0);
+        assert_eq!(Tuple::vector(0.0, 1.0, 0.0).magnitude(), 1.0);
+        assert_eq!(Tuple::vector(0.0, 0.0, 1.0).magnitude(), 1.0);
+        assert_eq!(Tuple::vector(1.0, 2.0, 3.0).magnitude(), 14.0_f64.sqrt());
+        assert_eq!(Tuple::vector(-1.0, -2.0, -3.0).magnitude(), 14.0_f64.sqrt());
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_magnitude_invalid() {
+        Tuple::point(0.0, 1.0, 2.0).magnitude();
+    }
+
+    #[test]
+    fn test_normalize() {
+        assert_eq!(
+            Tuple::vector(4.0, 0.0, 0.0).normalize(),
+            Tuple::vector(1.0, 0.0, 0.0)
+        );
+        assert_eq!(
+            Tuple::vector(1.0, 2.0, 3.0).normalize(),
+            Tuple::vector(0.26726, 0.53452, 0.80178)
+        );
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_get_normalize_invalid() {
+        Tuple::point(0.0, 1.0, 2.0).normalize();
+    }
+
+    #[test]
+    fn test_dot_valid() {
+        let a: Tuple = Tuple::vector(1.0, 2.0, 3.0);
+        let b: Tuple = Tuple::vector(2.0, 3.0, 4.0);
+        assert_eq!(a.dot(&b), 20.0);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_dot_invalid() {
+        let a: Tuple = Tuple::point(1.0, 2.0, 3.0);
+        let b: Tuple = Tuple::vector(2.0, 3.0, 4.0);
+        a.dot(&b);
+    }
+
+    #[test]
+    fn test_cross_valid() {
+        let a: Tuple = Tuple::vector(1.0, 2.0, 3.0);
+        let b: Tuple = Tuple::vector(2.0, 3.0, 4.0);
+        assert_eq!(a.cross(&b), Tuple::vector(-1.0, 2.0, -1.0));
+        assert_eq!(b.cross(&a), Tuple::vector(1.0, -2.0, 1.0));
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_cross_invalid() {
+        let a: Tuple = Tuple::point(1.0, 2.0, 3.0);
+        let b: Tuple = Tuple::vector(2.0, 3.0, 4.0);
+        a.cross(&b);
     }
 }
