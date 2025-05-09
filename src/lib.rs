@@ -5,11 +5,13 @@
 
 // expose these modules
 
+pub mod color;
 pub mod tuple;
 pub mod utils;
 
 // re-export the structures
 
+pub use color::Color;
 pub use tuple::Tuple;
 pub use utils::EPSILON;
 pub use utils::approx_eq;
