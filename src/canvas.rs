@@ -67,10 +67,7 @@ impl Canvas {
                 self.pixels[i] = color;
                 true
             }
-            Err(msg) => {
-                eprintln!("Fail: {}", msg);
-                false
-            }
+            Err(_) => false,
         }
     }
 
@@ -78,10 +75,7 @@ impl Canvas {
     pub fn get_pixel(&self, x: usize, y: usize) -> Option<Color> {
         match self.get_index(x, y) {
             Ok(i) => Some(self.pixels[i]),
-            Err(msg) => {
-                eprintln!("Fail: {}", msg);
-                None
-            }
+            Err(_) => None,
         }
     }
 
