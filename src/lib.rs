@@ -5,12 +5,14 @@
 
 // expose these modules
 
+pub mod canvas;
 pub mod color;
 pub mod tuple;
 pub mod utils;
 
 // re-export the structures
 
+pub use canvas::Canvas;
 pub use color::Color;
 pub use tuple::Tuple;
 pub use utils::EPSILON;
