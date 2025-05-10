@@ -14,6 +14,28 @@ impl Color {
             tuple: Tuple::vector(r, g, b),
         }
     }
+
+    pub fn new_black() -> Self {
+        Color::new(0.0, 0.0, 0.0)
+    }
+
+    pub fn new_white() -> Self {
+        Color::new(1.0, 1.0, 1.0)
+    }
+}
+
+impl Color {
+    pub fn get_clamped_red_u8(&self) -> u8 {
+        (self.tuple.x.clamp(0.0, 1.0) * 255.0).floor() as u8
+    }
+
+    pub fn get_clamped_green_u8(&self) -> u8 {
+        (self.tuple.y.clamp(0.0, 1.0) * 255.0).floor() as u8
+    }
+
+    pub fn get_clamped_blue_u8(&self) -> u8 {
+        (self.tuple.z.clamp(0.0, 1.0) * 255.0).floor() as u8
+    }
 }
 
 impl Add for Color {
@@ -86,9 +108,13 @@ mod tests {
     #[test]
     fn test_color() {
         let res = Color::new(-0.5, 0.4, 1.7);
+        let black = Color::new_black();
+        let white = Color::new_white();
         assert_eq!(res.tuple.x, -0.5);
         assert_eq!(res.tuple.y, 0.4);
         assert_eq!(res.tuple.z, 1.7);
+        assert_eq!(black, Color::new(0.0, 0.0, 0.0));
+        assert_eq!(white, Color::new(1.0, 1.0, 1.0));
     }
 
     #[test]
@@ -133,5 +159,17 @@ mod tests {
         let res: Color = Color::new(0.9, 0.2, 0.04);
 
         assert_eq!(a * b, res);
+    }
+
+    #[test]
+    fn test_get_clamped_u8() {
+        let px = Color::new(1.0, 0.8, 0.6);
+        let red = px.get_clamped_red_u8();
+        let green = px.get_clamped_green_u8();
+        let blue = px.get_clamped_blue_u8();
+
+        assert_eq!(red, 255);
+        assert_eq!(green, 204);
+        assert_eq!(blue, 153);
     }
 }
