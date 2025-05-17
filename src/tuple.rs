@@ -36,6 +36,10 @@ impl Tuple {
     pub fn vector(x: f64, y: f64, z: f64) -> Self {
         Self::new(x, y, z, VECTOR_W)
     }
+
+    pub fn to_array(&self) -> [f64; 3] {
+        [self.x, self.y, self.z]
+    }
 }
 
 /// Tuple getters and helper functions
@@ -232,6 +236,15 @@ mod tests {
         assert_eq!(res.w, 0.0);
         assert!(res.is_vector());
         assert!(!res.is_point());
+    }
+
+    #[test]
+    fn test_to_array() {
+        let point = Tuple::point(1.0, 2.0, 3.0);
+        let arr = point.to_array();
+        assert_eq!(arr[0], point.x);
+        assert_eq!(arr[1], point.y);
+        assert_eq!(arr[2], point.z);
     }
 
     #[test]
