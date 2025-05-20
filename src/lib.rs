@@ -18,4 +18,4 @@ pub use color::Color;
 pub use matrixes::Matrix;
 pub use tuple::Tuple;
 pub use utils::EPSILON;
-pub use utils::approx_eq;
+pub use utils::{approx_eq, deg_to_rad};
