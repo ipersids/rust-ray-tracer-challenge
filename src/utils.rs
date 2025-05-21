@@ -10,6 +10,11 @@ pub fn approx_eq(a: f64, b: f64) -> bool {
     (a - b).abs() < EPSILON
 }
 
+/// Cconverts degrees to radians
+pub fn deg_to_rad(degrees: f64) -> f64 {
+    degrees * std::f64::consts::PI / 180.0
+}
+
 // Unit tests
 #[cfg(test)]
 mod tests {
