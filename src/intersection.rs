@@ -14,7 +14,7 @@
 /// # Fields
 /// - `t`: The distance along the ray where the intersection occurs.
 /// - `shape_id`: The identifier of the intersected shape.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Intersection {
     pub t: f64,
     pub shape_id: usize,
@@ -26,6 +26,16 @@ impl Intersection {
         Self { t, shape_id }
     }
 }
+
+// impl PartialEq for Intersection {
+//     /// Compares two `Intersection`s for equality
+//     fn eq(&self, other: &Self) -> bool {
+//         approx_eq(self.x, other.x)
+//             && approx_eq(self.y, other.y)
+//             && approx_eq(self.z, other.z)
+//             && approx_eq(self.w, other.w)
+//     }
+// }
 
 /// A collection of intersections, always sorted by `t`.
 #[derive(Debug, Clone)]
@@ -56,6 +66,11 @@ impl Intersections {
     pub fn add(&mut self, intersection: Intersection) {
         self.collection.push(intersection);
         self.sort();
+    }
+
+    ///Returns the intersection with the lowest nonnegative `t`` value.
+    pub fn hit(&self) -> Option<&Intersection> {
+        self.collection.iter().find(|item| item.t >= 0.0)
     }
 }
 
@@ -117,5 +132,33 @@ mod test {
             collect.collection.get(1).map(|i| (i.t, i.shape_id)),
             Some((2.56, 0))
         );
+    }
+
+    #[test]
+    fn test_hit() {
+        let v = vec![Intersection::new(1.0, 0), Intersection::new(2.0, 0)];
+        let col = Intersections::from(v.clone());
+        let hit = col.hit();
+        assert_eq!(hit, v.first());
+
+        let v = vec![Intersection::new(1.0, 0), Intersection::new(-1.0, 0)];
+        let col = Intersections::from(v.clone());
+        let hit = col.hit();
+        assert_eq!(hit, v.first());
+
+        let v = vec![Intersection::new(-1.0, 0), Intersection::new(-2.0, 0)];
+        let col = Intersections::from(v.clone());
+        let hit = col.hit();
+        assert_eq!(hit, None);
+
+        let v = vec![
+            Intersection::new(5.0, 0),
+            Intersection::new(7.0, 0),
+            Intersection::new(-3.0, 0),
+            Intersection::new(2.0, 0),
+        ];
+        let col = Intersections::from(v.clone());
+        let hit = col.hit();
+        assert_eq!(hit, v.get(3));
     }
 }
