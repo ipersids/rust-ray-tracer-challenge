@@ -1,5 +1,19 @@
-//! Intersection Module
+//! # Intersection Module
+//!
+//! This module defines the `Intersection` and `Intersections` structs, which are used
+//! to represent and manage intersections between rays and shapes in a ray tracer.
+//!
+//! ## Types
+//! - [`Intersection`]: Represents a single intersection, storing the distance `t` along
+//!   the ray and the `shape_id` of the intersected object.
+//! - [`Intersections`]: A collection of `Intersection` objects, always sorted by `t` value.
+//!
 
+/// Represents a single intersection between a ray and a shape.
+///
+/// # Fields
+/// - `t`: The distance along the ray where the intersection occurs.
+/// - `shape_id`: The identifier of the intersected shape.
 #[derive(Debug, Clone)]
 pub struct Intersection {
     pub t: f64,
@@ -7,11 +21,13 @@ pub struct Intersection {
 }
 
 impl Intersection {
+    /// Creates a new `Intersection`.
     pub fn new(t: f64, shape_id: usize) -> Self {
         Self { t, shape_id }
     }
 }
 
+/// A collection of intersections, always sorted by `t`.
 #[derive(Debug, Clone)]
 pub struct Intersections {
     collection: Vec<Intersection>,
@@ -24,16 +40,19 @@ impl Default for Intersections {
 }
 
 impl Intersections {
+    /// Creates a new, empty collection of intersections.
     pub fn new() -> Self {
         Self {
             collection: Vec::new(),
         }
     }
 
+    /// Returns the number of intersections in the collection.
     pub fn count_items(&self) -> usize {
         self.collection.len()
     }
 
+    /// Adds an intersection to the collection and keeps it sorted by `t`.
     pub fn add(&mut self, intersection: Intersection) {
         self.collection.push(intersection);
         self.sort();
@@ -41,6 +60,8 @@ impl Intersections {
 }
 
 impl From<Vec<Intersection>> for Intersections {
+    /// Creates an `Intersections` collection from a vector of intersections,
+    /// sorting them by `t`.
     fn from(intersections: Vec<Intersection>) -> Self {
         let mut res = Self {
             collection: intersections,
@@ -51,6 +72,7 @@ impl From<Vec<Intersection>> for Intersections {
 }
 
 impl Intersections {
+    /// Sorts the collection by the `t` value of each intersection.
     fn sort(&mut self) {
         self.collection
             .sort_by(|a, b| a.t.partial_cmp(&b.t).unwrap_or(std::cmp::Ordering::Greater));

@@ -58,29 +58,29 @@ impl Tuple {
 /// Tuple special math operations for vectors
 impl Tuple {
     /// Calculates the squared magnitude of a 3D vector
-    pub fn magnitude_squared(&self) -> Result<f64, &'static str> {
-        match self.is_vector() {
-            true => Ok(self.x.powi(2) + self.y.powi(2) + self.z.powi(2)),
-            _ => Err("Error: magnitude_squared: Argument is not a vector."),
-        }
+    pub fn magnitude_squared(&self) -> f64 {
+        assert!(
+            self.is_vector(),
+            "magnitude() called on point, expected vector"
+        );
+        self.x.powi(2) + self.y.powi(2) + self.z.powi(2)
     }
 
     /// Calculates magnitude of a 3D vector: |V| = √(x2 + y2 + z2)
-    pub fn magnitude(&self) -> Result<f64, &'static str> {
-        Ok(self.magnitude_squared()?.sqrt())
+    pub fn magnitude(&self) -> f64 {
+        self.magnitude_squared().sqrt()
     }
 
     /// Converts an arbitrary vector to a unit vector
-    pub fn normalize(&self) -> Result<Self, &'static str> {
-        Ok(*self / self.magnitude()?)
+    pub fn normalize(&self) -> Self {
+        *self / self.magnitude()
     }
 
     /// Calculates dot product of two vectors
-    pub fn dot(&self, other: &Self) -> Result<f64, &'static str> {
-        match self.is_vector() && other.is_vector() {
-            true => Ok(self.x * other.x + self.y * other.y + self.z * other.z),
-            _ => Err("Error: dot: Both arguments must be vectors."),
-        }
+    pub fn dot(&self, other: &Self) -> f64 {
+        assert!(self.is_vector(), "dot() first argument must be vector");
+        assert!(other.is_vector(), "dot() second argument must be vector");
+        self.x * other.x + self.y * other.y + self.z * other.z
     }
 
     /// Calculates cross product of two vectors
@@ -189,9 +189,7 @@ impl Div<f64> for Tuple {
 
     /// Divides a `Tuple` by a scalar
     fn div(self, other: f64) -> Self {
-        if approx_eq(other, VECTOR_W) {
-            panic!("Division by zero.")
-        }
+        assert!(!approx_eq(other, 0.0), "Division by zero");
 
         Self {
             x: self.x / other,
@@ -335,65 +333,65 @@ mod tests {
 
     #[test]
     fn test_magnitude_squared() {
-        assert_eq!(
-            Tuple::vector(1.0, 0.0, 0.0).magnitude_squared().unwrap(),
-            1.0
-        );
-        assert_eq!(
-            Tuple::vector(0.0, 1.0, 0.0).magnitude_squared().unwrap(),
-            1.0
-        );
-        assert_eq!(
-            Tuple::vector(0.0, 0.0, 1.0).magnitude_squared().unwrap(),
-            1.0
-        );
-        assert_eq!(
-            Tuple::vector(1.0, 2.0, 3.0).magnitude_squared().unwrap(),
-            14.0
-        );
-        assert_eq!(
-            Tuple::vector(-1.0, -2.0, -3.0).magnitude_squared().unwrap(),
-            14.0
-        );
-        assert!(Tuple::point(-1.0, -2.0, -3.0).magnitude_squared().is_err());
+        assert_eq!(Tuple::vector(1.0, 0.0, 0.0).magnitude_squared(), 1.0);
+        assert_eq!(Tuple::vector(0.0, 1.0, 0.0).magnitude_squared(), 1.0);
+        assert_eq!(Tuple::vector(0.0, 0.0, 1.0).magnitude_squared(), 1.0);
+        assert_eq!(Tuple::vector(1.0, 2.0, 3.0).magnitude_squared(), 14.0);
+        assert_eq!(Tuple::vector(-1.0, -2.0, -3.0).magnitude_squared(), 14.0);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_magnitude_squared_panic() {
+        Tuple::point(-1.0, -2.0, -3.0).magnitude_squared();
     }
 
     #[test]
     fn test_magnitude() {
-        assert_eq!(Tuple::vector(1.0, 0.0, 0.0).magnitude().unwrap(), 1.0);
-        assert_eq!(Tuple::vector(0.0, 1.0, 0.0).magnitude().unwrap(), 1.0);
-        assert_eq!(Tuple::vector(0.0, 0.0, 1.0).magnitude().unwrap(), 1.0);
-        assert_eq!(
-            Tuple::vector(1.0, 2.0, 3.0).magnitude().unwrap(),
-            14.0_f64.sqrt()
-        );
-        assert_eq!(
-            Tuple::vector(-1.0, -2.0, -3.0).magnitude().unwrap(),
-            14.0_f64.sqrt()
-        );
-        assert!(Tuple::point(-1.0, -2.0, -3.0).magnitude().is_err());
+        assert_eq!(Tuple::vector(1.0, 0.0, 0.0).magnitude(), 1.0);
+        assert_eq!(Tuple::vector(0.0, 1.0, 0.0).magnitude(), 1.0);
+        assert_eq!(Tuple::vector(0.0, 0.0, 1.0).magnitude(), 1.0);
+        assert_eq!(Tuple::vector(1.0, 2.0, 3.0).magnitude(), 14.0_f64.sqrt());
+        assert_eq!(Tuple::vector(-1.0, -2.0, -3.0).magnitude(), 14.0_f64.sqrt());
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_magnitude_panic() {
+        Tuple::point(-1.0, -2.0, -3.0).magnitude();
     }
 
     #[test]
     fn test_normalize() {
         assert_eq!(
-            Tuple::vector(4.0, 0.0, 0.0).normalize().unwrap(),
+            Tuple::vector(4.0, 0.0, 0.0).normalize(),
             Tuple::vector(1.0, 0.0, 0.0)
         );
         assert_eq!(
-            Tuple::vector(1.0, 2.0, 3.0).normalize().unwrap(),
+            Tuple::vector(1.0, 2.0, 3.0).normalize(),
             Tuple::vector(0.26726, 0.53452, 0.80178)
         );
-        assert!(Tuple::point(1.0, 2.0, 3.0).normalize().is_err());
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_normalize_panic() {
+        Tuple::point(1.0, 2.0, 3.0).normalize();
     }
 
     #[test]
     fn test_dot() {
         let a: Tuple = Tuple::vector(1.0, 2.0, 3.0);
         let b: Tuple = Tuple::vector(2.0, 3.0, 4.0);
+        assert_eq!(a.dot(&b), 20.0);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_dot_panic() {
+        let a: Tuple = Tuple::vector(1.0, 2.0, 3.0);
         let c: Tuple = Tuple::point(2.0, 3.0, 4.0);
-        assert_eq!(a.dot(&b).unwrap(), 20.0);
-        assert!(a.dot(&c).is_err());
+        a.dot(&c);
     }
 
     #[test]

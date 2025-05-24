@@ -62,7 +62,7 @@ impl Environment {
 fn main() {
     let mut proj: Projectile = Projectile::new(
         Tuple::point(0.0, 1.0, 0.0),
-        Tuple::vector(1.0, 1.0, 0.0).normalize().unwrap(),
+        Tuple::vector(1.0, 1.0, 0.0).normalize(),
     );
     let env: Environment = Environment::new(
         Tuple::vector(0.0, -0.1, 0.0),
