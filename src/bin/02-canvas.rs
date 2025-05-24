@@ -63,7 +63,7 @@ impl Environment {
 fn main() {
     let mut proj: Projectile = Projectile::new(
         Tuple::point(0.0, 1.0, 0.0),
-        Tuple::vector(1.0, 1.8, 0.0).normalize().unwrap() * 11.25,
+        Tuple::vector(1.0, 1.8, 0.0).normalize() * 11.25,
     );
     let env: Environment = Environment::new(
         Tuple::vector(0.0, -0.1, 0.0),
@@ -84,11 +84,7 @@ fn main() {
         if y < 0.0 {
             break;
         }
-        let res: bool =
-            canvas.add_pixel(proj.position.x.round() as usize, y.round() as usize, color);
-        if !res {
-            break;
-        }
+        canvas.add_pixel(proj.position.x.round() as usize, y.round() as usize, color);
         proj.tick(&env);
     }
     println!("Writing into file './renders/chapter01.ppm'");

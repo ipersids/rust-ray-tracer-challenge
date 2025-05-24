@@ -61,14 +61,21 @@ impl Canvas {
 
 impl Canvas {
     /// Sets the color of a pixel at the specified coordinates.
-    pub fn add_pixel(&mut self, x: usize, y: usize, color: Color) -> bool {
-        match self.get_index(x, y) {
-            Ok(i) => {
-                self.pixels[i] = color;
-                true
-            }
-            Err(_) => false,
-        }
+    pub fn add_pixel(&mut self, x: usize, y: usize, color: Color) {
+        assert!(
+            x < self.width,
+            "x coordinate {} out of bounds (width: {})",
+            x,
+            self.width
+        );
+        assert!(
+            y < self.height,
+            "y coordinate {} out of bounds (height: {})",
+            y,
+            self.height
+        );
+        let index = self.width * y + x;
+        self.pixels[index] = color;
     }
 
     /// Returns the color of a pixel at the specified coordinates.
@@ -202,15 +209,13 @@ mod tests {
     }
 
     #[test]
+    #[should_panic]
     fn test_add_pixel_out_of_bounds() {
         let _w: usize = 5;
         let _h: usize = 5;
         let _c: Color = Color::new_white();
         let mut canvas = Canvas::new(_w, _h);
-
-        assert!(!canvas.add_pixel(6, 0, _c));
-        assert!(!canvas.add_pixel(0, 6, _c));
-        assert!(!canvas.add_pixel(6, 6, _c));
+        canvas.add_pixel(6, 0, _c);
     }
 
     #[test]

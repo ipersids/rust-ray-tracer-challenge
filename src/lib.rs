@@ -7,7 +7,11 @@
 
 pub mod canvas;
 pub mod color;
+pub mod intersection;
 pub mod matrixes;
+pub mod ray;
+pub mod shape;
+pub mod sphere;
 pub mod tuple;
 pub mod utils;
 
@@ -15,7 +19,10 @@ pub mod utils;
 
 pub use canvas::Canvas;
 pub use color::Color;
+pub use intersection::{Intersection, Intersections};
 pub use matrixes::Matrix;
+pub use ray::Ray;
+pub use sphere::Sphere;
 pub use tuple::Tuple;
 pub use utils::EPSILON;
 pub use utils::{approx_eq, deg_to_rad};
