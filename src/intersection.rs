@@ -27,16 +27,6 @@ impl Intersection {
     }
 }
 
-// impl PartialEq for Intersection {
-//     /// Compares two `Intersection`s for equality
-//     fn eq(&self, other: &Self) -> bool {
-//         approx_eq(self.x, other.x)
-//             && approx_eq(self.y, other.y)
-//             && approx_eq(self.z, other.z)
-//             && approx_eq(self.w, other.w)
-//     }
-// }
-
 /// A collection of intersections, always sorted by `t`.
 #[derive(Debug, Clone)]
 pub struct Intersections {

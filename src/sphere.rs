@@ -1,5 +1,6 @@
 //! Spheres Module
 
+use crate::Matrix;
 use crate::ray::Ray;
 use crate::tuple::Tuple;
 
@@ -7,6 +8,7 @@ use crate::tuple::Tuple;
 pub struct Sphere {
     pub origin: Tuple,
     pub radius: f64,
+    pub transform: Matrix<4>,
 }
 
 impl Sphere {
@@ -15,8 +17,17 @@ impl Sphere {
     pub fn new(origin: Tuple, radius: f64) -> Self {
         assert!(origin.is_point(), "Sphere origin must be a point.");
         assert!(radius > 0.0, "Sphere radius must be positive.");
+        let transform = Matrix::identity();
+        Sphere {
+            origin,
+            radius,
+            transform,
+        }
+    }
 
-        Sphere { origin, radius }
+    /// Allows a transformationto be assigned to a sphere.
+    pub fn set_transformation(&mut self, transformation: Matrix<4>) {
+        self.transform = transformation;
     }
 }
 
@@ -25,6 +36,14 @@ impl Sphere {
     /// Returns a list of distances along the ray for each intersection point.
     /// The result may be empty if there are no intersections.
     pub fn intersect(&self, ray: Ray) -> Vec<f64> {
+        let inverse_transform = self
+            .transform
+            .inverse()
+            .expect("Sphere transform must be invertible");
+        let ray = Ray::new(
+            inverse_transform * ray.origin,
+            inverse_transform * ray.direction,
+        );
         let sphere_to_ray = ray.origin - self.origin;
         let a = ray.direction.dot(&ray.direction);
         let b = 2.0 * ray.direction.dot(&sphere_to_ray);
@@ -97,5 +116,26 @@ mod test {
         assert_eq!(xs.len(), 2);
         assert_eq!(xs.first(), Some(&-6.0));
         assert_eq!(xs.get(1), Some(&-4.0));
+    }
+
+    #[test]
+    fn test_set_transformation() {
+        let mut sp = Sphere::new(Tuple::point(0.0, 0.0, 0.0), 1.0);
+        assert_eq!(sp.transform, Matrix::identity());
+        let m = Matrix::translation(2.0, 3.0, 4.0);
+        sp.set_transformation(m);
+        assert_eq!(sp.transform, m);
+    }
+
+    #[test]
+    fn test_intersect_with_transformation() {
+        let ray = Ray::new(Tuple::point(0.0, 0.0, -5.0), Tuple::vector(0.0, 0.0, 1.0));
+        let mut sp = Sphere::new(Tuple::point(0.0, 0.0, 0.0), 1.0);
+        let m = Matrix::scaling(2.0, 2.0, 2.0);
+        sp.set_transformation(m);
+        let res = sp.intersect(ray);
+        assert_eq!(res.len(), 2);
+        assert_eq!(res.first(), Some(&3.0));
+        assert_eq!(res.get(1), Some(&7.0));
     }
 }

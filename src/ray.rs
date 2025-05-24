@@ -4,6 +4,7 @@
 //! and manipulating rays in 3D space. A ray consists of an origin point and a direction vector,
 //! and is commonly used in ray tracing to determine intersections with objects.
 
+use crate::matrixes::Matrix;
 use crate::tuple::Tuple;
 
 /// Represents a ray in 3D space, defined by an origin point and a direction vector.
@@ -28,6 +29,14 @@ impl Ray {
     /// Computes the position along the ray at distance `t`.
     pub fn position(&self, t: f64) -> Tuple {
         self.origin + (self.direction * t)
+    }
+
+    /// Applyes transformation to the ray.
+    pub fn transform(&self, matrix: Matrix<4>) -> Self {
+        Self {
+            origin: matrix * self.origin,
+            direction: matrix * self.direction,
+        }
     }
 }
 
@@ -67,5 +76,19 @@ mod tests {
         assert_eq!(ray.position(1.0), Tuple::point(3.0, 3.0, 4.0));
         assert_eq!(ray.position(-1.0), Tuple::point(1.0, 3.0, 4.0));
         assert_eq!(ray.position(2.5), Tuple::point(4.5, 3.0, 4.0));
+    }
+
+    #[test]
+    fn test_transform() {
+        let ray = Ray::new(Tuple::point(1.0, 2.0, 3.0), Tuple::vector(0.0, 1.0, 0.0));
+        let m = Matrix::translation(3.0, 4.0, 5.0);
+        let transform_ray = ray.transform(m);
+        assert_eq!(transform_ray.origin, Tuple::point(4.0, 6.0, 8.0));
+        assert_eq!(transform_ray.direction, Tuple::vector(0.0, 1.0, 0.0));
+
+        let m = Matrix::scaling(2.0, 3.0, 4.0);
+        let transform_ray = ray.transform(m);
+        assert_eq!(transform_ray.origin, Tuple::point(2.0, 6.0, 12.0));
+        assert_eq!(transform_ray.direction, Tuple::vector(0.0, 3.0, 0.0));
     }
 }
