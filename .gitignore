@@ -22,4 +22,5 @@ Cargo.lock
 /target
 
 # Output folder (automatically created)
-/renders/*
+/renders/*.ppm
+/renders/chapter*.png

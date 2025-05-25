@@ -8,6 +8,8 @@
 pub mod canvas;
 pub mod color;
 pub mod intersection;
+pub mod light;
+pub mod material;
 pub mod matrixes;
 pub mod ray;
 pub mod shape;
@@ -20,6 +22,9 @@ pub mod utils;
 pub use canvas::Canvas;
 pub use color::Color;
 pub use intersection::{Intersection, Intersections};
+pub use light::Light;
+pub use light::{lighting, reflect};
+pub use material::Material;
 pub use matrixes::Matrix;
 pub use ray::Ray;
 pub use sphere::Sphere;

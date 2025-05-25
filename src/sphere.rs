@@ -1,6 +1,7 @@
 //! Spheres Module
 
 use crate::Matrix;
+use crate::material::Material;
 use crate::ray::Ray;
 use crate::tuple::Tuple;
 
@@ -9,6 +10,7 @@ pub struct Sphere {
     pub origin: Tuple,
     pub radius: f64,
     pub transform: Matrix<4>,
+    pub material: Material,
 }
 
 impl Sphere {
@@ -18,16 +20,22 @@ impl Sphere {
         assert!(origin.is_point(), "Sphere origin must be a point.");
         assert!(radius > 0.0, "Sphere radius must be positive.");
         let transform = Matrix::identity();
+        let material = Material::new();
         Sphere {
             origin,
             radius,
             transform,
+            material,
         }
     }
 
     /// Allows a transformationto be assigned to a sphere.
     pub fn set_transformation(&mut self, transformation: Matrix<4>) {
         self.transform = transformation;
+    }
+
+    pub fn set_material(&mut self, material: Material) {
+        self.material = material;
     }
 }
 
@@ -59,11 +67,27 @@ impl Sphere {
             (-b + (discriminant.sqrt())) / (2.0 * a),
         ]
     }
+
+    pub fn normal_at(&self, world_point: Tuple) -> Tuple {
+        assert!(world_point.is_point(), "Sphere normal takes a point.");
+        let inv_transform = self
+            .transform
+            .inverse()
+            .expect("normal_at(): Could not inverse matrix.");
+        let object_point = inv_transform * world_point;
+        let object_normal = object_point - self.origin;
+        let mut world_normal = inv_transform.transpose() * object_normal;
+        world_normal.w = 0.0;
+        world_normal.normalize()
+    }
 }
 
 #[cfg(test)]
 mod test {
+    use crate::Color;
+
     use super::*;
+    use std::f64::consts::FRAC_1_SQRT_2;
 
     #[test]
     fn test_new_sphere() {
@@ -137,5 +161,48 @@ mod test {
         assert_eq!(res.len(), 2);
         assert_eq!(res.first(), Some(&3.0));
         assert_eq!(res.get(1), Some(&7.0));
+    }
+
+    #[test]
+    fn test_normal_at() {
+        let mut sp = Sphere::new(Tuple::point(0.0, 0.0, 0.0), 1.0);
+
+        let res = sp.normal_at(Tuple::point(1.0, 0.0, 0.0));
+        assert_eq!(res, Tuple::vector(1.0, 0.0, 0.0));
+
+        let res = sp.normal_at(Tuple::point(
+            3.0_f64.sqrt() / 3.0,
+            3.0_f64.sqrt() / 3.0,
+            3.0_f64.sqrt() / 3.0,
+        ));
+        assert_eq!(
+            res,
+            Tuple::vector(
+                3.0_f64.sqrt() / 3.0,
+                3.0_f64.sqrt() / 3.0,
+                3.0_f64.sqrt() / 3.0
+            )
+        );
+
+        sp.set_transformation(Matrix::translation(0.0, 1.0, 0.0));
+        let res = sp.normal_at(Tuple::point(0.0, 1.70711, -FRAC_1_SQRT_2));
+        assert_eq!(res, Tuple::vector(0.0, FRAC_1_SQRT_2, -FRAC_1_SQRT_2));
+    }
+
+    #[test]
+    fn test_set_material() {
+        let mut sp = Sphere::new(Tuple::point(0.0, 0.0, 0.0), 1.0);
+        assert_eq!(sp.material, Material::new());
+        let material = Material {
+            color: Color::new(0.0, 1.0, 0.5),
+            ambient: 1.0,
+            diffuse: 0.9,
+            specular: 0.9,
+            shininess: 200.0,
+        };
+        sp.set_material(material);
+        assert_eq!(sp.material, material);
+        sp.material.ambient = 0.5;
+        assert_eq!(sp.material.ambient, 0.5);
     }
 }
