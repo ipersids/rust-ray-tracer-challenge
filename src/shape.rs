@@ -2,7 +2,7 @@
 //!
 //!
 
-use crate::{Ray, Sphere, Tuple};
+use crate::{Material, Ray, Sphere, Tuple};
 
 #[derive(Debug, Clone)]
 pub enum Shape {
@@ -19,6 +19,12 @@ impl Shape {
     pub fn normal_at(&self, point: Tuple) -> Tuple {
         match self {
             Shape::Sphere(sp) => sp.normal_at(point),
+        }
+    }
+
+    pub fn get_material(&self) -> &Material {
+        match self {
+            Shape::Sphere(sp) => &sp.material,
         }
     }
 }

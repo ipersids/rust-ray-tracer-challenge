@@ -48,10 +48,7 @@ impl Sphere {
             .transform
             .inverse()
             .expect("Sphere transform must be invertible");
-        let ray = Ray::new(
-            inverse_transform * ray.origin,
-            inverse_transform * ray.direction,
-        );
+        let ray = ray.transform(inverse_transform);
         let sphere_to_ray = ray.origin - self.origin;
         let a = ray.direction.dot(&ray.direction);
         let b = 2.0 * ray.direction.dot(&sphere_to_ray);
