@@ -30,7 +30,7 @@ impl Intersection {
 /// A collection of intersections, always sorted by `t`.
 #[derive(Debug, Clone)]
 pub struct Intersections {
-    collection: Vec<Intersection>,
+    pub collection: Vec<Intersection>,
 }
 
 impl Default for Intersections {

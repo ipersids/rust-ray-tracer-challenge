@@ -4,8 +4,8 @@ use crate::{Color, Material, Tuple};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Light {
-    intensity: Color,
-    position: Tuple,
+    pub intensity: Color,
+    pub position: Tuple,
 }
 
 impl Light {
