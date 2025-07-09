@@ -10,7 +10,7 @@ fn main() {
     let half = wall_size / 2.0;
     let mut canvas = Canvas::new(canvas_pixels as usize, canvas_pixels as usize);
     let red = Color::new(1.0, 0.0, 0.0);
-    let mut shape = Sphere::new(Tuple::point(0.0, 0.0, 0.0), 1.0);
+    let mut shape = Sphere::new();
 
     // shrink it along the y axis
     // shape.set_transformation(Matrix::scaling(1.0, 0.5, 1.0));

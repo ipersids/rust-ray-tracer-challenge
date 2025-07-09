@@ -10,7 +10,7 @@ fn main() {
     let half = wall_size / 2.0;
     let mut canvas = Canvas::new(canvas_pixels as usize, canvas_pixels as usize);
 
-    let mut sphere = Sphere::new(Tuple::point(0.0, 0.0, 0.0), 1.0);
+    let mut sphere = Sphere::new();
     sphere.material.color = Color::new(1.0, 0.2, 0.5);
     sphere.material.shininess = 90.0;
     let light_position = Tuple::point(-10.0, 10.0, -10.0);
