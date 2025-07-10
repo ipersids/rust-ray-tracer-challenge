@@ -1,6 +1,8 @@
 //! lighting
 
-use crate::{Color, Material, Tuple};
+use crate::core::Tuple;
+use crate::graphics::Color;
+use crate::lighting::Material;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Light {

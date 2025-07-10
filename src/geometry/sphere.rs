@@ -1,9 +1,9 @@
 //! Spheres Module
 
-use crate::Matrix;
-use crate::material::Material;
-use crate::ray::Ray;
-use crate::tuple::Tuple;
+use crate::core::Matrix;
+use crate::core::Tuple;
+use crate::graphics::Ray;
+use crate::lighting::Material;
 
 #[derive(Debug, Clone)]
 pub struct Sphere {
@@ -13,23 +13,23 @@ pub struct Sphere {
     pub material: Material,
 }
 
+impl Default for Sphere {
+    fn default() -> Self {
+        Sphere::new()
+    }
+}
 impl Sphere {
-    /// Constructs a new sphere with a specified center and radius.
-    /// Ensures the center is a valid point and the radius is greater than zero.
-    pub fn new(origin: Tuple, radius: f64) -> Self {
-        assert!(origin.is_point(), "Sphere origin must be a point.");
-        assert!(radius > 0.0, "Sphere radius must be positive.");
-        let transform = Matrix::identity();
-        let material = Material::new();
+    /// Constructs a new sphere with default fields
+    pub fn new() -> Self {
         Sphere {
-            origin,
-            radius,
-            transform,
-            material,
+            origin: Tuple::point(0.0, 0.0, 0.0),
+            radius: 1.0,
+            transform: Matrix::identity(),
+            material: Material::new(),
         }
     }
 
-    /// Allows a transformationto be assigned to a sphere.
+    /// Allows a transformation to be assigned to a sphere.
     pub fn set_transformation(&mut self, transformation: Matrix<4>) {
         self.transform = transformation;
     }
@@ -81,40 +81,24 @@ impl Sphere {
 
 #[cfg(test)]
 mod test {
-    use crate::Color;
+    use crate::graphics::Color;
 
     use super::*;
     use std::f64::consts::FRAC_1_SQRT_2;
 
     #[test]
     fn test_new_sphere() {
-        let origin_p = Tuple::point(0.0, 0.0, 1.0);
-        let radius = 100.0;
-        let s = Sphere::new(origin_p, radius);
+        let origin_p = Tuple::point(0.0, 0.0, 0.0);
+        let radius = 1.0;
+        let s = Sphere::new();
         assert_eq!(s.origin, origin_p);
         assert_eq!(s.radius, radius);
     }
 
     #[test]
-    #[should_panic]
-    fn test_new_sphere_invalid_origin() {
-        let origin_v = Tuple::vector(0.0, 0.0, 1.0);
-        let radius = 100.0;
-        let _ = Sphere::new(origin_v, radius);
-    }
-
-    #[test]
-    #[should_panic]
-    fn test_new_sphere_invalid_radius() {
-        let origin = Tuple::point(0.0, 0.0, 1.0);
-        let radius = -10.0;
-        let _ = Sphere::new(origin, radius);
-    }
-
-    #[test]
     fn test_intersect() {
         let ray = Ray::new(Tuple::point(0.0, 0.0, -5.0), Tuple::vector(0.0, 0.0, 1.0));
-        let sp = Sphere::new(Tuple::point(0.0, 0.0, 0.0), 1.0);
+        let sp = Sphere::new();
         let xs = sp.intersect(ray);
         assert_eq!(xs.len(), 2);
         assert_eq!(xs.first(), Some(&4.0));
@@ -141,7 +125,7 @@ mod test {
 
     #[test]
     fn test_set_transformation() {
-        let mut sp = Sphere::new(Tuple::point(0.0, 0.0, 0.0), 1.0);
+        let mut sp = Sphere::new();
         assert_eq!(sp.transform, Matrix::identity());
         let m = Matrix::translation(2.0, 3.0, 4.0);
         sp.set_transformation(m);
@@ -151,7 +135,7 @@ mod test {
     #[test]
     fn test_intersect_with_transformation() {
         let ray = Ray::new(Tuple::point(0.0, 0.0, -5.0), Tuple::vector(0.0, 0.0, 1.0));
-        let mut sp = Sphere::new(Tuple::point(0.0, 0.0, 0.0), 1.0);
+        let mut sp = Sphere::new();
         let m = Matrix::scaling(2.0, 2.0, 2.0);
         sp.set_transformation(m);
         let res = sp.intersect(ray);
@@ -162,7 +146,7 @@ mod test {
 
     #[test]
     fn test_normal_at() {
-        let mut sp = Sphere::new(Tuple::point(0.0, 0.0, 0.0), 1.0);
+        let mut sp = Sphere::new();
 
         let res = sp.normal_at(Tuple::point(1.0, 0.0, 0.0));
         assert_eq!(res, Tuple::vector(1.0, 0.0, 0.0));
@@ -188,7 +172,7 @@ mod test {
 
     #[test]
     fn test_set_material() {
-        let mut sp = Sphere::new(Tuple::point(0.0, 0.0, 0.0), 1.0);
+        let mut sp = Sphere::new();
         assert_eq!(sp.material, Material::new());
         let material = Material {
             color: Color::new(0.0, 1.0, 0.5),

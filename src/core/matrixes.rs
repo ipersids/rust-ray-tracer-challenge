@@ -4,8 +4,8 @@
 //! This matrix implementation provides common linear algebra operations
 //! such as matrix multiplication, determinant calculation, and transformations.
 
-use crate::Tuple;
-use crate::utils::approx_eq;
+use crate::core::Tuple;
+use crate::core::approx_eq;
 use std::convert::From;
 use std::ops::{Index, IndexMut, Mul};
 

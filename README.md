@@ -31,6 +31,45 @@ This educational project follows ["The Ray Tracer Challenge"](https://pragprog.c
 - [ ] **Cylinders**  
 - [ ] **Groups, triangles, CSG&** and more  
 
+### Project source files structure
+
+```css
+src/
+├── lib.rs                    # Main library entry point
+├── main.rs                   # Main binary
+├── bin/...                   # Example programs 
+│ 
+├── core/                     # Core math and primitives
+│   ├── mod.rs
+│   ├── tuple.rs              # Points, vectors, colors as tuples
+│   ├── matrix.rs             # Matrix operations and transformations
+│   └── utils.rs              # Constants (EPSILON) and utility functions
+│ 
+├── graphics/                 # Graphics primitives
+│   ├── mod.rs
+│   ├── canvas.rs             # Canvas and pixel operations
+│   ├── color.rs              # Color operations
+│   └── ray.rs                # Ray definitions and operations
+│ 
+├── geometry/                 # Geometric shapes and intersections
+│   ├── mod.rs
+│   ├── shape.rs              # Shape 
+│   ├── sphere.rs             # Sphere implementation
+│   └── intersection.rs       # Intersection calculations
+│ 
+├── lighting/                 # Lighting and materials
+│   ├── mod.rs
+│   ├── material.rs           # Material properties
+│   ├── light.rs              # Light sources and calculations
+│   └── ...
+│ 
+├── scene/                    # Scene composition
+│   ├── mod.rs
+│   ├── world.rs              # World and scene management
+│   └── ...
+...
+```
+
 #### Quick Start  
 
 **Prerequisites:**  
