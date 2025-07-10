@@ -1,9 +1,9 @@
 //! Spheres Module
 
-use crate::Matrix;
 use crate::material::Material;
+use crate::operations::Matrix;
+use crate::operations::Tuple;
 use crate::ray::Ray;
-use crate::tuple::Tuple;
 
 #[derive(Debug, Clone)]
 pub struct Sphere {
@@ -29,7 +29,7 @@ impl Sphere {
         }
     }
 
-    /// Allows a transformationto be assigned to a sphere.
+    /// Allows a transformation to be assigned to a sphere.
     pub fn set_transformation(&mut self, transformation: Matrix<4>) {
         self.transform = transformation;
     }

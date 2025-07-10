@@ -2,7 +2,8 @@
 //!
 //!
 
-use crate::{Material, Ray, Sphere, Tuple};
+use crate::operations::Tuple;
+use crate::{Material, Ray, Sphere};
 
 #[derive(Debug, Clone)]
 pub enum Shape {

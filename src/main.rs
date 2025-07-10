@@ -1,5 +1,5 @@
 #[allow(unused)]
-use ray_tracer::Tuple;
+use ray_tracer::operations::Tuple;
 use ray_tracer::{Canvas, Color};
 
 fn main() {

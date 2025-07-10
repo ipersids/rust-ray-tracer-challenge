@@ -10,12 +10,10 @@ pub mod color;
 pub mod intersection;
 pub mod light;
 pub mod material;
-pub mod matrixes;
+pub mod operations;
 pub mod ray;
 pub mod shape;
 pub mod sphere;
-pub mod tuple;
-pub mod utils;
 pub mod world;
 
 // re-export the structures
@@ -26,11 +24,11 @@ pub use intersection::{Intersection, Intersections};
 pub use light::Light;
 pub use light::{lighting, reflect};
 pub use material::Material;
-pub use matrixes::Matrix;
 pub use ray::Ray;
 pub use shape::Shape;
 pub use sphere::Sphere;
-pub use tuple::Tuple;
-pub use utils::EPSILON;
-pub use utils::{approx_eq, deg_to_rad};
 pub use world::{Comps, World};
+
+// pub use operations::matrixes::Matrix;
+// pub use operations::tuple::Tuple;
+// pub use operations::utils::{EPSILON, approx_eq};

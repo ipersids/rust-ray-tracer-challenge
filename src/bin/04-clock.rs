@@ -1,7 +1,6 @@
 use std::f64::consts::PI;
 
-use ray_tracer::matrixes::Matrix;
-use ray_tracer::tuple::Tuple;
+use ray_tracer::operations::{Matrix, Tuple};
 use ray_tracer::{Canvas, Color};
 
 fn main() {

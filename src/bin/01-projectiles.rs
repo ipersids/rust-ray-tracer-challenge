@@ -1,5 +1,5 @@
-use ray_tracer::tuple::Tuple;
-use ray_tracer::utils::EPSILON;
+use ray_tracer::operations::EPSILON;
+use ray_tracer::operations::Tuple;
 
 use std::fmt;
 
