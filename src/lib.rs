@@ -12,8 +12,7 @@ pub mod light;
 pub mod material;
 pub mod operations;
 pub mod ray;
-pub mod shape;
-pub mod sphere;
+pub mod shapes;
 pub mod world;
 
 // re-export the structures
@@ -25,10 +24,4 @@ pub use light::Light;
 pub use light::{lighting, reflect};
 pub use material::Material;
 pub use ray::Ray;
-pub use shape::Shape;
-pub use sphere::Sphere;
 pub use world::{Comps, World};
-
-// pub use operations::matrixes::Matrix;
-// pub use operations::tuple::Tuple;
-// pub use operations::utils::{EPSILON, approx_eq};

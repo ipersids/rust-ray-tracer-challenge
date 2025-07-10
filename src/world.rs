@@ -1,7 +1,8 @@
 //! World Module
 
 use crate::operations::{Matrix, Tuple};
-use crate::{Color, Intersection, Intersections, Light, Ray, Shape, Sphere, lighting};
+use crate::shapes::{Shape, Sphere};
+use crate::{Color, Intersection, Intersections, Light, Ray, lighting};
 
 #[derive(Debug)]
 pub struct World {
