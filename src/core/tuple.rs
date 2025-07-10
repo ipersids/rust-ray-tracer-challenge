@@ -4,7 +4,7 @@
 //! in 3D space depending on their w-coordinate.
 //!
 
-use crate::operations::approx_eq;
+use crate::core::approx_eq;
 use std::fmt::{Display, Formatter};
 use std::ops::{Add, Div, Mul, Neg, Sub};
 
@@ -212,7 +212,7 @@ impl Display for Tuple {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::operations::EPSILON;
+    use crate::core::EPSILON;
 
     #[test]
     fn test_point() {

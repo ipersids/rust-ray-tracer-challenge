@@ -4,8 +4,8 @@
 //! and manipulating rays in 3D space. A ray consists of an origin point and a direction vector,
 //! and is commonly used in ray tracing to determine intersections with objects.
 
-use crate::operations::Matrix;
-use crate::operations::Tuple;
+use crate::core::Matrix;
+use crate::core::Tuple;
 
 /// Represents a ray in 3D space, defined by an origin point and a direction vector.
 #[derive(Debug, Copy, Clone)]

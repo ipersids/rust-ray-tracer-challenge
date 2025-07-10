@@ -10,7 +10,7 @@
 //! - Add or get pixels at specific coordinates.
 //! - Export the canvas to a PPM file.
 
-use crate::Color;
+use crate::graphics::Color;
 use std::{fs, io::Write, path::Path};
 
 const RENDERS_PATH: &str = "./renders";

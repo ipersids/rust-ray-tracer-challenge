@@ -1,6 +1,7 @@
-use ray_tracer::operations::Tuple;
-use ray_tracer::shapes::Sphere;
-use ray_tracer::{Canvas, Color, Light, Ray, lighting};
+use ray_tracer::core::Tuple;
+use ray_tracer::geometry::Sphere;
+use ray_tracer::graphics::{Canvas, Color, Ray};
+use ray_tracer::lighting::{Light, lighting};
 
 fn main() {
     let ray_orig = Tuple::point(0.0, 0.0, -5.0);

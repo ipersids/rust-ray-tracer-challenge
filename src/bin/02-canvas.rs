@@ -1,6 +1,6 @@
-use ray_tracer::operations::EPSILON;
-use ray_tracer::operations::Tuple;
-use ray_tracer::{Canvas, Color};
+use ray_tracer::core::EPSILON;
+use ray_tracer::core::Tuple;
+use ray_tracer::graphics::{Canvas, Color};
 
 use std::fmt;
 

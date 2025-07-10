@@ -1,6 +1,6 @@
 #[allow(unused)]
-use ray_tracer::operations::Tuple;
-use ray_tracer::{Canvas, Color};
+use ray_tracer::core::Tuple;
+use ray_tracer::graphics::{Canvas, Color};
 
 fn main() {
     let p = Tuple::point(1.0, 2.0, 3.0);

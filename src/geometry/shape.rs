@@ -2,9 +2,10 @@
 //!
 //!
 
-use crate::operations::Tuple;
-use crate::shapes::Sphere;
-use crate::{Material, Ray};
+use crate::core::Tuple;
+use crate::geometry::Sphere;
+use crate::graphics::Ray;
+use crate::lighting::Material;
 
 #[derive(Debug, Clone)]
 pub enum Shape {
