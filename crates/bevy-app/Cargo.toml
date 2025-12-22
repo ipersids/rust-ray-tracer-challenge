@@ -1,0 +1,9 @@
+[package]
+name = "bevy-app"
+version = "0.1.0"
+edition = "2024"
+default-run = "bevy-app"
+
+[dependencies]
+bevy = "0.17.3"
+ray-tracer = { path = "../ray-tracer" }
