@@ -3965,6 +3965,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "scene-loader"
+version = "0.1.0"
+
+[[package]]
+name = "scene-types"
+version = "0.1.0"
+dependencies = [
+ "ray-tracer",
+]
+
+[[package]]
 name = "scoped-tls"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
