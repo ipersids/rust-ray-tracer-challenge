@@ -1,7 +1,7 @@
 use crate::error::SceneError;
 use scene_types::SceneFile;
 
-pub fn parse_toml_scene_from_str(toml_str: &String) -> Result<SceneFile, SceneError> {
+pub fn parse_toml_scene_from_str(toml_str: &str) -> Result<SceneFile, SceneError> {
     let scene: SceneFile = toml::from_str(toml_str)?;
     Ok(scene)
 }
@@ -113,10 +113,10 @@ mod tests {
     }
 
     #[test]
-    fn parse_toml_scene_from_str_yelds_error() {
+    fn parse_toml_scene_from_str_yields_error() {
         let input = r#"
             [camera]
-            UKNOWN = [0, 0, 0]
+            UNKNOWN = [0, 0, 0]
             target = [0, 0, -1]
             fov = 40.0
 
@@ -162,7 +162,7 @@ mod tests {
             type = "sphere"
             position = [0, 0, -30]
             radius = 5.0
-            material = { type = "UKNOWN" }
+            material = { type = "UNKNOWN" }
             color = [136, 8, 8]
         "#
         .to_string();

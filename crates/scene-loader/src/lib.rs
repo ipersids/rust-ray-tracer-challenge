@@ -56,8 +56,8 @@ mod tests {
     }
 
     #[test]
-    fn load_scene_from_file_yelds_error() {
-        let err = load_scene("uknown.toml");
+    fn load_scene_from_file_yields_error() {
+        let err = load_scene("unknown.toml");
         assert!(matches!(err, Err(SceneError::InvalidFile(_))));
     }
 }

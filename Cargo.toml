@@ -9,7 +9,7 @@ members = [
     "crates/scene-loader",
 
     # Bevy integration for ray-tracer library output
-    "crates/bevy-app", "crates/scene-types", "crates/scene-loader",
+    "crates/bevy-app",
 ]
 
 [workspace.dependencies]

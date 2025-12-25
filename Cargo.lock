@@ -3964,7 +3964,6 @@ dependencies = [
 name = "scene-loader"
 version = "0.1.0"
 dependencies = [
- "ray-tracer",
  "scene-types",
  "tempfile",
  "thiserror 2.0.17",

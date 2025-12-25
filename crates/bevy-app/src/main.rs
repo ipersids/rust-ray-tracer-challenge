@@ -2,7 +2,7 @@ use bevy::asset::RenderAssetUsages;
 use bevy::prelude::*;
 use bevy::render::render_resource::{Extent3d, TextureDimension, TextureFormat};
 
-use scene_loader;
+use scene_loader::load_scene;
 use scene_types::{MaterialDef, SceneFile};
 
 use ray_tracer::core::Tuple;
@@ -11,7 +11,7 @@ use ray_tracer::graphics::{Color, Ray};
 use ray_tracer::lighting::{Light, lighting};
 
 fn main() {
-    let scene = match scene_loader::load_scene("scene/example.toml") {
+    let scene = match load_scene("scene/example.toml") {
         Ok(s) => s,
         Err(e) => {
             eprintln!("Failed to load scene: {e}");
@@ -32,7 +32,7 @@ struct Scene(SceneFile);
 fn setup(mut commands: Commands, scene: Res<Scene>, mut images: ResMut<Assets<Image>>) {
     let n: usize = 400;
 
-    let scene = scene.0.clone();
+    let scene = &scene.0;
 
     let ray_orig = Tuple::point(
         scene.camera.position[0] as f64,
