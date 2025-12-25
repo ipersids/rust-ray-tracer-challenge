@@ -58,7 +58,7 @@ pub enum ShapeDef {
 #[derive(Deserialize, Debug, PartialEq)]
 #[serde(tag = "type", rename_all = "lowercase", deny_unknown_fields)]
 pub enum MaterialDef {
-    Default {},
+    Default(MaterialEmptyDef),
     Custom(MaterialCustomDef),
 }
 
@@ -73,3 +73,7 @@ pub struct MaterialCustomDef {
     pub specular_coeff: f32,
     pub shininess: f32,
 }
+
+#[derive(Deserialize, Debug, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct MaterialEmptyDef {}

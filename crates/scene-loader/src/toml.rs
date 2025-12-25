@@ -9,8 +9,8 @@ pub fn parse_toml_scene_from_str(toml_str: &str) -> Result<SceneFile, SceneError
 #[cfg(test)]
 mod tests {
     use scene_types::{
-        AmbientDef, CameraDef, LightDef, LightKindDef, MaterialCustomDef, MaterialDef, ObjectDef,
-        ShapeDef,
+        AmbientDef, CameraDef, LightDef, LightKindDef, MaterialCustomDef, MaterialDef,
+        MaterialEmptyDef, ObjectDef, ShapeDef,
     };
 
     use super::*;
@@ -105,7 +105,7 @@ mod tests {
         "#;
 
         let scene: SceneFile = parse_toml_scene_from_str(input).unwrap();
-        scene_expected.objects[0].material = MaterialDef::Default {};
+        scene_expected.objects[0].material = MaterialDef::Default(MaterialEmptyDef {});
 
         assert_eq!(scene, scene_expected);
     }
@@ -123,7 +123,7 @@ mod tests {
             color = [255, 255, 255]
 
             [[lights]]
-            type = { type = "point" }
+            type = "point"
             position = [-10, 10, -10]
             intensity = 0.5
             color = [255, 255, 255]
@@ -132,7 +132,7 @@ mod tests {
             type = "sphere"
             position = [0, 0, -30]
             radius = 5.0
-            material-type = "default"
+            material = { type = "default" }
             color = [136, 8, 8]
         "#;
 
@@ -150,7 +150,7 @@ mod tests {
             color = [255, 255, 255]
 
             [[lights]]
-            type = { type = "point" }
+            type = "point"
             position = [-10, 10, -10]
             intensity = 0.5
             color = [255, 255, 255]
@@ -159,7 +159,7 @@ mod tests {
             type = "sphere"
             position = [0, 0, -30]
             radius = 5.0
-            material-type = "UKNOWN"
+            material = { type = "UKNOWN" }
             color = [136, 8, 8]
         "#;
 
