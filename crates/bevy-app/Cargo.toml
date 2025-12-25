@@ -7,3 +7,5 @@ default-run = "bevy-app"
 [dependencies]
 bevy = "0.17.3"
 ray-tracer = { path = "../ray-tracer" }
+scene-loader = { path = "../scene-loader" }
+scene-types = { path = "../scene-types" }

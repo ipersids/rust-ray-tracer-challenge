@@ -1,7 +1,7 @@
 use crate::error::SceneError;
 use scene_types::SceneFile;
 
-pub fn parse_toml_scene_from_str(toml_str: &str) -> Result<SceneFile, SceneError> {
+pub fn parse_toml_scene_from_str(toml_str: &String) -> Result<SceneFile, SceneError> {
     let scene: SceneFile = toml::from_str(toml_str)?;
     Ok(scene)
 }
@@ -45,9 +45,10 @@ mod tests {
                     shininess = 200.0
                 }
             color = [136, 8, 8]
-        "#;
+        "#
+        .to_string();
 
-        let scene: SceneFile = parse_toml_scene_from_str(input).unwrap();
+        let scene: SceneFile = parse_toml_scene_from_str(&input).unwrap();
 
         let mut scene_expected: SceneFile = SceneFile {
             camera: CameraDef {
@@ -102,9 +103,10 @@ mod tests {
             radius = 5.0
             material = { type = "default" }
             color = [136, 8, 8]
-        "#;
+        "#
+        .to_string();
 
-        let scene: SceneFile = parse_toml_scene_from_str(input).unwrap();
+        let scene: SceneFile = parse_toml_scene_from_str(&input).unwrap();
         scene_expected.objects[0].material = MaterialDef::Default(MaterialEmptyDef {});
 
         assert_eq!(scene, scene_expected);
@@ -134,9 +136,10 @@ mod tests {
             radius = 5.0
             material = { type = "default" }
             color = [136, 8, 8]
-        "#;
+        "#
+        .to_string();
 
-        let err = parse_toml_scene_from_str(input);
+        let err = parse_toml_scene_from_str(&input);
         assert!(matches!(err, Err(SceneError::InvalidScene(_))));
 
         let input = r#"
@@ -161,9 +164,10 @@ mod tests {
             radius = 5.0
             material = { type = "UKNOWN" }
             color = [136, 8, 8]
-        "#;
+        "#
+        .to_string();
 
-        let err = parse_toml_scene_from_str(input);
+        let err = parse_toml_scene_from_str(&input);
         assert!(matches!(err, Err(SceneError::InvalidScene(_))));
     }
 }

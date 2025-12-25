@@ -1,5 +1,5 @@
 [camera]
-position = [0, 0, 0]
+position = [0, 0, -5]
 target = [0, 0, -1]
 fov = 40.0
 
@@ -15,7 +15,7 @@ color = [255, 255, 255]
 
 [[objects]]
 type = "sphere"
-position = [0, 0, -30]
+position = [0, 0, 0]
 radius = 5.0
 material = {
         type = "custom",
@@ -24,7 +24,7 @@ material = {
         specular-coefficient = 0.9,
         shininess = 200.0
     }
-color = [136, 8, 8]
+color = [8, 136, 8]
 
 [[objects]]
 type = "sphere"

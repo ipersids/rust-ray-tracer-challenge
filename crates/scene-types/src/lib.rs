@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-#[derive(Deserialize, Debug, PartialEq)]
+#[derive(Deserialize, Debug, PartialEq, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct SceneFile {
     pub camera: CameraDef,
@@ -9,7 +9,7 @@ pub struct SceneFile {
     pub objects: Vec<ObjectDef>,
 }
 
-#[derive(Deserialize, Debug, PartialEq)]
+#[derive(Deserialize, Debug, PartialEq, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct CameraDef {
     pub position: [f32; 3],
@@ -17,14 +17,14 @@ pub struct CameraDef {
     pub fov: f32,
 }
 
-#[derive(Deserialize, Debug, PartialEq)]
+#[derive(Deserialize, Debug, PartialEq, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct AmbientDef {
     pub intensity: f32,
     pub color: [u8; 3],
 }
 
-#[derive(Deserialize, Debug, PartialEq)]
+#[derive(Deserialize, Debug, PartialEq, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct LightDef {
     #[serde(rename = "type")]
@@ -34,13 +34,13 @@ pub struct LightDef {
     pub color: [u8; 3],
 }
 
-#[derive(Deserialize, Debug, PartialEq)]
+#[derive(Deserialize, Debug, PartialEq, Clone)]
 #[serde(rename_all = "lowercase", deny_unknown_fields)]
 pub enum LightKindDef {
     Point,
 }
 
-#[derive(Deserialize, Debug, PartialEq)]
+#[derive(Deserialize, Debug, PartialEq, Clone)]
 pub struct ObjectDef {
     pub position: [f32; 3],
     pub material: MaterialDef,
@@ -49,20 +49,20 @@ pub struct ObjectDef {
     pub shape: ShapeDef,
 }
 
-#[derive(Deserialize, Debug, PartialEq)]
+#[derive(Deserialize, Debug, PartialEq, Clone)]
 #[serde(tag = "type", rename_all = "lowercase", deny_unknown_fields)]
 pub enum ShapeDef {
     Sphere { radius: f32 },
 }
 
-#[derive(Deserialize, Debug, PartialEq)]
+#[derive(Deserialize, Debug, PartialEq, Clone)]
 #[serde(tag = "type", rename_all = "lowercase", deny_unknown_fields)]
 pub enum MaterialDef {
     Default(MaterialEmptyDef),
     Custom(MaterialCustomDef),
 }
 
-#[derive(Deserialize, Debug, PartialEq)]
+#[derive(Deserialize, Debug, PartialEq, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct MaterialCustomDef {
     #[serde(rename = "ambient-coefficient")]
@@ -74,6 +74,6 @@ pub struct MaterialCustomDef {
     pub shininess: f32,
 }
 
-#[derive(Deserialize, Debug, PartialEq)]
+#[derive(Deserialize, Debug, PartialEq, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct MaterialEmptyDef {}
