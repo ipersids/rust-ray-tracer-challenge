@@ -12,8 +12,8 @@ pub struct SceneFile {
 #[derive(Deserialize, Debug, PartialEq)]
 #[serde(deny_unknown_fields)]
 pub struct CameraDef {
-    pub position: [i32; 3],
-    pub target: [i32; 3],
+    pub position: [f32; 3],
+    pub target: [f32; 3],
     pub fov: f32,
 }
 
@@ -29,7 +29,7 @@ pub struct AmbientDef {
 pub struct LightDef {
     #[serde(rename = "type")]
     pub kind: LightKindDef,
-    pub position: [i32; 3],
+    pub position: [f32; 3],
     pub intensity: f32,
     pub color: [u8; 3],
 }
@@ -42,7 +42,7 @@ pub enum LightKindDef {
 
 #[derive(Deserialize, Debug, PartialEq)]
 pub struct ObjectDef {
-    pub position: [i32; 3],
+    pub position: [f32; 3],
     pub material: MaterialDef,
     pub color: [u8; 3],
     #[serde(flatten)]

@@ -51,9 +51,9 @@ mod tests {
 
         let mut scene_expected: SceneFile = SceneFile {
             camera: CameraDef {
-                position: [0, 0, 0],
-                target: [0, 0, -1],
-                fov: 40.0,
+                position: [0_f32, 0_f32, 0_f32],
+                target: [0_f32, 0_f32, -1_f32],
+                fov: 40_f32,
             },
             ambient: AmbientDef {
                 intensity: 0.4,
@@ -61,12 +61,12 @@ mod tests {
             },
             lights: vec![LightDef {
                 kind: LightKindDef::Point,
-                position: [-10, 10, -10],
+                position: [-10_f32, 10_f32, -10_f32],
                 intensity: 0.5,
                 color: [255, 255, 255],
             }],
             objects: vec![ObjectDef {
-                position: [0, 0, -30],
+                position: [0_f32, 0_f32, -30_f32],
                 material: MaterialDef::Custom(MaterialCustomDef {
                     ambient_coeff: 0.1,
                     diffuse_coeff: 0.9,

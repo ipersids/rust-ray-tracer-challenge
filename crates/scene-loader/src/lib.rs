@@ -49,8 +49,8 @@ mod tests {
         let path = f.path().to_str().expect("path is valid utf-8");
         let scene = load_scene(path).unwrap();
 
-        assert_eq!(scene.camera.position, [0, 0, 0]);
-        assert_eq!(scene.camera.target, [0, 0, -1]);
+        assert_eq!(scene.camera.position, [0_f32, 0_f32, 0_f32]);
+        assert_eq!(scene.camera.target, [0_f32, 0_f32, -1_f32]);
         assert_eq!(scene.lights.len(), 1);
         assert_eq!(scene.objects.len(), 1);
     }
