@@ -4,4 +4,4 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-ray-tracer = { path = "../ray-tracer" }
+serde = { version = "1.0", features = ["derive"] }

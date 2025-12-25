@@ -11,3 +11,6 @@ members = [
     # Bevy integration for ray-tracer library output
     "crates/bevy-app", "crates/scene-types", "crates/scene-loader",
 ]
+
+[workspace.dependencies]
+thiserror = "2.0.17"
