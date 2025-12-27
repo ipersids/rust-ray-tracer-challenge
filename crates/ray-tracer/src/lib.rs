@@ -5,8 +5,7 @@
 
 // expose these modules
 
-pub mod geometry;
-pub mod graphics;
 pub mod lighting;
 pub mod math;
 pub mod scene;
+pub mod shape;

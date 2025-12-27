@@ -1,7 +1,8 @@
 use std::f64::consts::PI;
 
-use ray_tracer::graphics::{Canvas, Color};
 use ray_tracer::math::{Matrix, Tuple};
+use ray_tracer::scene::Canvas;
+use ray_tracer::shape::Color;
 
 fn main() {
     let mut canvas: Canvas = Canvas::new(640, 640);

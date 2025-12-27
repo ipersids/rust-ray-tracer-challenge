@@ -1,6 +1,6 @@
 //! Surface properties
 
-use crate::graphics::Color;
+use crate::shape::Color;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Material {

@@ -1,10 +1,9 @@
 //! World Module
 
-use crate::geometry::{Intersection, Intersections};
-use crate::geometry::{Shape, Sphere};
-use crate::graphics::Color;
 use crate::lighting::{Light, lighting};
 use crate::math::{Matrix, Ray, Tuple};
+use crate::shape::{Color, Shape, Sphere};
+use crate::shape::{Intersection, Intersections};
 
 #[derive(Debug)]
 pub struct World {

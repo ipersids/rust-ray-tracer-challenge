@@ -5,10 +5,9 @@ use bevy::render::render_resource::{Extent3d, TextureDimension, TextureFormat};
 use scene_loader::load_scene;
 use scene_types::{MaterialDef, SceneFile};
 
-use ray_tracer::geometry::Sphere;
-use ray_tracer::graphics::Color;
 use ray_tracer::lighting::{Light, lighting};
 use ray_tracer::math::{Ray, Tuple};
+use ray_tracer::shape::{Color, Sphere};
 
 fn main() {
     let scene = match load_scene("scene/example.toml") {

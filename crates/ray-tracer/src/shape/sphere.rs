@@ -1,8 +1,7 @@
 //! Spheres Module
 
-use crate::lighting::Material;
-use crate::math::Matrix;
-use crate::math::{Ray, Tuple};
+use crate::math::{Matrix, Ray, Tuple};
+use crate::shape::Material;
 
 #[derive(Debug, Clone)]
 pub struct Sphere {
@@ -80,9 +79,8 @@ impl Sphere {
 
 #[cfg(test)]
 mod test {
-    use crate::graphics::Color;
-
     use super::*;
+    use crate::shape::color::Color;
     use std::f64::consts::FRAC_1_SQRT_2;
 
     #[test]
