@@ -1,6 +1,6 @@
-use ray_tracer::core::{Matrix, Tuple};
-use ray_tracer::geometry::Sphere;
-use ray_tracer::graphics::{Canvas, Color, Ray};
+use ray_tracer::math::{Matrix, Ray, Tuple};
+use ray_tracer::scene::Canvas;
+use ray_tracer::shape::{Color, Sphere};
 use std::f64::consts::PI;
 
 fn main() {

@@ -1,6 +1,6 @@
 //! # Color Module
 
-use crate::core::Tuple;
+use crate::math::Tuple;
 use std::ops::{Add, Mul, Sub};
 
 #[derive(Debug, Copy, Clone)]

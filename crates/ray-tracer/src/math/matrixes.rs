@@ -4,8 +4,8 @@
 //! This matrix implementation provides common linear algebra operations
 //! such as matrix multiplication, determinant calculation, and transformations.
 
-use crate::core::Tuple;
-use crate::core::approx_eq;
+use crate::math::Tuple;
+use crate::math::approx_eq;
 use std::convert::From;
 use std::ops::{Index, IndexMut, Mul};
 
@@ -248,6 +248,21 @@ impl Matrix<4> {
         res[2][0] = zx;
         res[2][1] = zy;
         res
+    }
+
+    pub fn view_transform(from: Tuple, to: Tuple, up: Tuple) -> Self {
+        let forward = (to - from).normalize();
+        let up = up.normalize();
+        let left = forward.cross(&up);
+        let true_up = left.cross(&forward);
+        let orientation = Matrix::from([
+            [left.x, left.y, left.z, 0.0],
+            [true_up.x, true_up.y, true_up.z, 0.0],
+            [-forward.x, -forward.y, -forward.z, 0.0],
+            [0.0, 0.0, 0.0, 1.0],
+        ]);
+
+        orientation * Matrix::<4>::translation(-from.x, -from.y, -from.z)
     }
 }
 
@@ -765,5 +780,29 @@ mod tests {
         let transform = c * b * a;
         let res = transform * p;
         assert_eq!(res, Tuple::point(15.0, 0.0, 7.0));
+    }
+
+    #[test]
+    fn calculate_view_transform_ok() {
+        let from = Tuple::point(0.0, 0.0, 0.0);
+        let to = Tuple::point(0.0, 0.0, -1.0);
+        let up = Tuple::vector(0.0, 1.0, 0.0);
+        let res = Matrix::<4>::view_transform(from, to, up);
+        let expected = Matrix::<4>::identity();
+        assert_eq!(res, expected);
+
+        let from = Tuple::point(0.0, 0.0, 0.0);
+        let to = Tuple::point(0.0, 0.0, 1.0);
+        let up = Tuple::vector(0.0, 1.0, 0.0);
+        let res = Matrix::<4>::view_transform(from, to, up);
+        let expected = Matrix::<4>::scaling(-1.0, 1.0, -1.0);
+        assert_eq!(res, expected);
+
+        let from = Tuple::point(0.0, 0.0, 8.0);
+        let to = Tuple::point(0.0, 0.0, 0.0);
+        let up = Tuple::vector(0.0, 1.0, 0.0);
+        let res = Matrix::<4>::view_transform(from, to, up);
+        let expected = Matrix::<4>::translation(0.0, 0.0, -8.0);
+        assert_eq!(res, expected);
     }
 }

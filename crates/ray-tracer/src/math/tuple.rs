@@ -4,7 +4,7 @@
 //! in 3D space depending on their w-coordinate.
 //!
 
-use crate::core::approx_eq;
+use crate::math::approx_eq;
 use std::fmt::{Display, Formatter};
 use std::ops::{Add, Div, Mul, Neg, Sub};
 
@@ -84,16 +84,13 @@ impl Tuple {
     }
 
     /// Calculates cross product of two vectors
-    pub fn cross(&self, other: &Self) -> Result<Self, &'static str> {
-        if !(self.is_vector() && other.is_vector()) {
-            return Err("Error: cross: Both arguments must be vectors.");
-        }
-        Ok(Self {
+    pub fn cross(&self, other: &Self) -> Self {
+        Self {
             x: self.y * other.z - self.z * other.y,
             y: self.z * other.x - self.x * other.z,
             z: self.x * other.y - self.y * other.x,
             w: VECTOR_W,
-        })
+        }
     }
 }
 
@@ -212,7 +209,7 @@ impl Display for Tuple {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::core::EPSILON;
+    use crate::math::EPSILON;
 
     #[test]
     fn test_point() {
@@ -398,9 +395,7 @@ mod tests {
     fn test_cross() {
         let a: Tuple = Tuple::vector(1.0, 2.0, 3.0);
         let b: Tuple = Tuple::vector(2.0, 3.0, 4.0);
-        let c: Tuple = Tuple::point(2.0, 3.0, 4.0);
-        assert_eq!(a.cross(&b).unwrap(), Tuple::vector(-1.0, 2.0, -1.0));
-        assert_eq!(b.cross(&a).unwrap(), Tuple::vector(1.0, -2.0, 1.0));
-        assert!(b.cross(&c).is_err());
+        assert_eq!(a.cross(&b), Tuple::vector(-1.0, 2.0, -1.0));
+        assert_eq!(b.cross(&a), Tuple::vector(1.0, -2.0, 1.0));
     }
 }
