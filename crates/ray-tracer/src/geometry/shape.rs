@@ -3,9 +3,8 @@
 //!
 
 use crate::geometry::Sphere;
-use crate::graphics::Ray;
 use crate::lighting::Material;
-use crate::math::Tuple;
+use crate::math::{Ray, Tuple};
 
 #[derive(Debug, Clone)]
 pub enum Shape {

@@ -6,9 +6,9 @@ use scene_loader::load_scene;
 use scene_types::{MaterialDef, SceneFile};
 
 use ray_tracer::geometry::Sphere;
-use ray_tracer::graphics::{Color, Ray};
+use ray_tracer::graphics::Color;
 use ray_tracer::lighting::{Light, lighting};
-use ray_tracer::math::Tuple;
+use ray_tracer::math::{Ray, Tuple};
 
 fn main() {
     let scene = match load_scene("scene/example.toml") {

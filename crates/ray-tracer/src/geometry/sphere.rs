@@ -1,9 +1,8 @@
 //! Spheres Module
 
-use crate::graphics::Ray;
 use crate::lighting::Material;
 use crate::math::Matrix;
-use crate::math::Tuple;
+use crate::math::{Ray, Tuple};
 
 #[derive(Debug, Clone)]
 pub struct Sphere {
