@@ -8,7 +8,7 @@ use crate::shape::{Intersection, Intersections};
 #[derive(Debug)]
 pub struct World {
     pub objects: Vec<Shape>,
-    pub light: Light,
+    pub lights: Vec<Light>,
 }
 
 pub struct Comps {
@@ -37,7 +37,7 @@ impl World {
         let light = Light::point_light(Tuple::point(-10.0, 10.0, -10.0), Color::new(1.0, 1.0, 1.0));
         Self {
             objects: vec![Shape::Sphere(s1), Shape::Sphere(s2)],
-            light,
+            lights: vec![light],
         }
     }
 }
@@ -82,7 +82,7 @@ impl World {
     pub fn shade_hit(&self, comps: Comps) -> Color {
         lighting(
             comps.obj.get_material(),
-            &self.light,
+            &self.lights[0],
             &comps.point,
             &comps.eyev,
             &comps.normalv,
@@ -121,8 +121,8 @@ mod test {
         assert_eq!(s2.radius, 1.0);
         assert_eq!(s2.transform, Matrix::scaling(0.5, 0.5, 0.5));
 
-        assert_eq!(w.light.intensity, Color::new(1.0, 1.0, 1.0));
-        assert_eq!(w.light.position, Tuple::point(-10.0, 10.0, -10.0));
+        assert_eq!(w.lights[0].intensity, Color::new(1.0, 1.0, 1.0));
+        assert_eq!(w.lights[0].position, Tuple::point(-10.0, 10.0, -10.0));
     }
 
     #[test]
