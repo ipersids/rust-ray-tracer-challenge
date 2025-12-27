@@ -1,6 +1,6 @@
 //! lighting
 
-use crate::core::Tuple;
+use crate::math::Tuple;
 use crate::graphics::Color;
 use crate::lighting::Material;
 

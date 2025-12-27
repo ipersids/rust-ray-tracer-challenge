@@ -1,6 +1,6 @@
 //! World Module
 
-use crate::core::{Matrix, Tuple};
+use crate::math::{Matrix, Tuple};
 use crate::geometry::{Intersection, Intersections};
 use crate::geometry::{Shape, Sphere};
 use crate::graphics::{Color, Ray};
